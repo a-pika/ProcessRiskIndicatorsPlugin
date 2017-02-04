@@ -133,12 +133,53 @@ pane.add(tslotunit, c);
 			c.ipadx = 100;
 			pane.add(calcSLA, c);
 
+	//------------------------------------
+			final JLabel maxStdDev=new JLabel();
+			maxStdDev.setText("<html><h3>Max. number of standard deviations: </h3></html>");
+			maxStdDev.setForeground(UISettings.TextLight_COLOR);
+			c.ipadx = 100;      
+			c.gridwidth = 1;
+			c.gridx = 0;
+			c.gridy = 6;
+			pane.add(maxStdDev, c);	
+					
+				 DefaultComboBoxModel model3 = new DefaultComboBoxModel();
+			     model3.addElement("1");
+			     model3.addElement("2");
+			     model3.addElement("3");
+			     model3.addElement("4");
+			     model3.addElement("5");
+			     model3.addElement("10");
+			     model3.addElement("20");
+			     
+			    	   
+			    final ProMComboBox maxStdDevN = new ProMComboBox(model3);
+			    c.gridwidth = 1;
+				c.gridx = 1;
+				c.gridy = 6;
+				c.ipadx = 100;
+				pane.add(maxStdDevN, c);
+
+		//---------------------------------------------------------
+				final JLabel step = new JLabel("Std. Dev. increase step: ");  
+				step.setForeground(UISettings.TextLight_COLOR);
+				c.ipadx = 100; 
+				c.gridwidth = 1;
+				c.gridx = 0;
+				c.gridy = 7;
+				pane.add(step, c);
+				
+				final ProMTextField stepV = new ProMTextField("0.25");
+				c.gridx = 1;
+				c.gridy = 7;
+				c.ipadx = 100;
+				pane.add(stepV, c);
 		
 		
 SlickerButton but=new SlickerButton();
 but.setText("Submit");
 c.gridx = 0;
-c.gridy = 6;
+c.gridy = 8;
 c.gridwidth = 2;
 pane.add(but, c);
   
@@ -149,6 +190,10 @@ pane.add(but, c);
                        ActionEvent e) {
             	   
             	 ip.desiredPrecision = Double.parseDouble(prec.getText());
+            	 
+            	 ip.step = Double.parseDouble(stepV.getText());
+            	 ip.devNum = Integer.parseInt((String)maxStdDevN.getSelectedItem());
+            	 
             	 String confMethod = (String) confPRI.getSelectedItem();
             	 if(confMethod.equals("Yes"))
             	 {ip.configure = true;}else
@@ -178,7 +223,7 @@ pane.add(but, c);
                                }
                        );
    
-   setSize(700,300);
+   setSize(700,400);
    setModal(true);
    setLocationRelativeTo(null);
    setVisible(true);

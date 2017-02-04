@@ -12,7 +12,9 @@ import org.deckfour.xes.model.XLog;
 import org.deckfour.xes.model.XTrace;
 import org.deckfour.xes.model.impl.XAttributeBooleanImpl;
 import org.deckfour.xes.model.impl.XAttributeContinuousImpl;
+import org.processmining.models.graphbased.directed.petrinet.PetrinetGraph;
 import org.processmining.processriskindicators.analysis.Basic;
+import org.processmining.processriskindicators.analysis.PriUtils;
 import org.processmining.processriskindicators.analysis.Stat;
 
 
@@ -20,6 +22,7 @@ public class AbnormalWaitDuration {
 
 	static Basic basic = new Basic();
 	static Stat stat = new Stat();
+	static PriUtils priUtils = new PriUtils();
 	
 	public static XLog getRiskyLogMedianTwoLogs (XLog trainlog, XLog testlog, String act_name, Double distribution_param, Double stdev_threshold){
 					
@@ -79,6 +82,67 @@ public class AbnormalWaitDuration {
 					return copylog;
 					
 				};	
+				
+public static XLog getRiskyLogMedianTwoLogsWithModel (XLog trainlog, XLog testlog, String act_name, Double distribution_param, Double stdev_threshold, PetrinetGraph net){
+					
+					Vector<Double> waitDur = new Vector<Double>();	
+							
+					// getting wait durations
+					for (XTrace t : trainlog) {
+																	 
+					for (XEvent e : t) 
+						{
+						String lifecycle = XLifecycleExtension.instance().extractTransition(e);
+						String eventName = XConceptExtension.instance().extractName(e);
+						
+						if (lifecycle.equalsIgnoreCase("start") && eventName.equals(act_name) && t.indexOf(e)!=0)
+						{
+							Date eventTime = XTimeExtension.instance().extractTimestamp(e);
+							//Date prevEventTime = XTimeExtension.instance().extractTimestamp(basic.Prev(t,e));
+							Date prevEventTime = XTimeExtension.instance().extractTimestamp(priUtils.PrevPRI2(t,e,net));
+							long duration = eventTime.getTime()-prevEventTime.getTime();
+							waitDur.add(Math.log10(duration));				
+							}
+						}
+										
+					}
+					
+					Double threshold = stat.getMedianThreshold(waitDur, distribution_param, stdev_threshold);
+								
+					XLog copylog = XFactoryRegistry.instance().currentDefault().createLog(testlog.getAttributes());
+						
+								
+								for (XTrace t : testlog) {
+									XTrace trace = XFactoryRegistry.instance().currentDefault().createTrace(t.getAttributes());
+																	 
+								for (XEvent e : t) 
+									{
+									XEvent event = XFactoryRegistry.instance().currentDefault().createEvent(e.getAttributes());
+									String eventName = XConceptExtension.instance().extractName(event);
+									String lifecycle = XLifecycleExtension.instance().extractTransition(event);
+									
+									if (lifecycle.equalsIgnoreCase("start")  && eventName.equals(act_name) && t.indexOf(e)!=0)
+									{
+										Date eventTime = XTimeExtension.instance().extractTimestamp(event);
+										Date prevEventTime = XTimeExtension.instance().extractTimestamp(basic.Prev(t,e));
+										long duration = eventTime.getTime()-prevEventTime.getTime();
+										Double logduration = Math.log10(duration);
+										
+										if (logduration > threshold)
+										{
+											event.getAttributes().put("feature:wait_duration",new XAttributeBooleanImpl("feature:wait_duration",true));
+											event.getAttributes().put("feature:ab_wait_duration",new XAttributeContinuousImpl("feature:ab_wait_duration",duration-java.lang.Math.pow(10,threshold)));
+										
+										}
+									}
+										trace.add(event);
+									}
+								copylog.add(trace);				
+								}
+					return copylog;
+					
+				};	
+
 }
 
 //--------------------------------PREV. VERSIONS-------------------------------------------------------------------------------
