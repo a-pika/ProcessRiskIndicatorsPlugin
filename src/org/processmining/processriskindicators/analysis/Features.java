@@ -35,7 +35,6 @@ import org.processmining.processriskindicators.threshold.PriResourceThreshold;
 
 public class Features {
 
-//to do - check	
 public XLog  getRunRisks(UIPluginContext context, XLog inputlog, Date startTimeslot, Date endTimeslot, Double dist, Double allstDev, Double stDev, InputParameters ip) {
 			
 	InOut inout = new InOut();
@@ -150,9 +149,6 @@ public XLog  getRunRisks(UIPluginContext context, XLog inputlog, Date startTimes
 //Double allSLA = stat.getMedianSLA(inputlog, dist, allstDev);
 //Double allSLA = stat.getAverageSLA(inputlog, allstDev);
 //Double allSLA = stat.getAverageLogSLA(inputlog, 2.00);
-
-//Double allSLA = 2592000000.00;
-//Double allSLA = 18000000.00;
 
 Double allSLA = 0.0;
 
@@ -351,9 +347,6 @@ public XLog  getRunRisksWithModel(UIPluginContext context, XLog inputlog, Date s
 //Double allSLA = stat.getAverageSLA(inputlog, allstDev);
 //Double allSLA = stat.getAverageLogSLA(inputlog, 2.00);
 
-//Double allSLA = 2592000000.00;
-//Double allSLA = 18000000.00;
-
 Double allSLA = 0.0;
 
 if(ip.calculateSLA)
@@ -486,8 +479,6 @@ public static XLog getTestLog25 (XLog log){
 	return copylog;
 	
 };
-
-// functions for PRI Configuration
 
 public XLog preprocessLogforConfiguration(XLog inputlog)
 {
@@ -1105,27 +1096,14 @@ public XLog getOneDataSetRisks(UIPluginContext context, XLog log, InputParameter
 	Basic basic = new Basic();
 	
 	Double p1 = ip.desiredPrecision;
-/*	Double p2 = ip.desiredPrecision;
-	Double p3 = ip.desiredPrecision;
-	Double p4 = ip.desiredPrecision;
-	Double p5 = ip.desiredPrecision;
-	Double p6 = ip.desiredPrecision;
-	Double p7 = ip.desiredPrecision;
-	Double p8 = ip.desiredPrecision;
-	Double p9 = ip.desiredPrecision;
-*/
+
 	
 	ConcurrentSkipListSet<String> activities = new ConcurrentSkipListSet<String>();
 	ConcurrentSkipListSet<String> resources = new ConcurrentSkipListSet<String>();
 	
 	for (XTrace t : log) {
-		//XTrace trace = XFactoryRegistry.instance().currentDefault().createTrace(t.getAttributes());
-		//log.add(trace);
 					 
 	for (XEvent e : t) {
-			//XEvent event = XFactoryRegistry.instance().currentDefault().createEvent(e.getAttributes());
-			
-			//String lifecycle = XLifecycleExtension.instance().extractTransition(e);
 			String activity = XConceptExtension.instance().extractName(e);
 			String resource = XOrganizationalExtension.instance().extractResource(e);
 			
@@ -1333,7 +1311,7 @@ for (int j=0; j<thresholds.resources.elementAt(i).resourceActivities.size();j++)
 	//thresholds = getThresholdsNoConfigurationFixed(context, trainLog, thresholds, p1);
 //}
 	
-System.out.println("Getting thresholds");
+//System.out.println("Getting thresholds");
 thresholds = getThresholdsFixed(context, trainLog, thresholds, p1);
 
 testLog = getRisks(context, testLog, thresholds);	
@@ -1362,18 +1340,10 @@ public XLog getOneDataSetRisksWithModel(UIPluginContext context, XLog log, Input
 	else
 	{SLA = ip.SLA;}
 	PriUtils priUtils = new PriUtils();	
-	Basic basic = new Basic();
+	//Basic basic = new Basic();
 	
 	Double p1 = ip.desiredPrecision;
-/*	Double p2 = ip.desiredPrecision;
-	Double p3 = ip.desiredPrecision;
-	Double p4 = ip.desiredPrecision;
-	Double p5 = ip.desiredPrecision;
-	Double p6 = ip.desiredPrecision;
-	Double p7 = ip.desiredPrecision;
-	Double p8 = ip.desiredPrecision;
-	Double p9 = ip.desiredPrecision;
-*/
+
 	
 	ConcurrentSkipListSet<String> activities = new ConcurrentSkipListSet<String>();
 	ConcurrentSkipListSet<String> resources = new ConcurrentSkipListSet<String>();
@@ -1608,10 +1578,6 @@ testLog = priUtils.processTime(testLog);
 public PriCaseThreshold  getThresholdsFixed(UIPluginContext context, XLog trainlog, PriCaseThreshold thresholds, Double p) {
 	
 	Basic basic = new Basic();
-	
-	//Double dev1 = 1.00;
-	//Double dev2 = 2.00;
-	//Double dev3 = 3.00;
 	
 	Double PRI5av = thresholds.PRI5av;
 	Double PRI5dev = thresholds.PRI5dev;
@@ -2247,10 +2213,6 @@ public PriCaseThreshold  getThresholdsFixedWithModel(UIPluginContext context, XL
 	
 	Basic basic = new Basic();
 	PriUtils priUtils = new PriUtils();
-	
-	//Double dev1 = 1.00;
-	//Double dev2 = 2.00;
-	//Double dev3 = 3.00;
 	
 	Double PRI5av = thresholds.PRI5av;
 	Double PRI5dev = thresholds.PRI5dev;

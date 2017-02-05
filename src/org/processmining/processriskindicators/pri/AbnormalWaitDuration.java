@@ -124,7 +124,9 @@ public static XLog getRiskyLogMedianTwoLogsWithModel (XLog trainlog, XLog testlo
 									if (lifecycle.equalsIgnoreCase("start")  && eventName.equals(act_name) && t.indexOf(e)!=0)
 									{
 										Date eventTime = XTimeExtension.instance().extractTimestamp(event);
-										Date prevEventTime = XTimeExtension.instance().extractTimestamp(basic.Prev(t,e));
+										//Date prevEventTime = XTimeExtension.instance().extractTimestamp(basic.Prev(t,e));
+										Date prevEventTime = XTimeExtension.instance().extractTimestamp(priUtils.PrevPRI2(t,e,net));
+										
 										long duration = eventTime.getTime()-prevEventTime.getTime();
 										Double logduration = Math.log10(duration);
 										
