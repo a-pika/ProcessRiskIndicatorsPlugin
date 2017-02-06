@@ -19,6 +19,7 @@ import org.processmining.contexts.uitopia.UIPluginContext;
 import org.processmining.contexts.uitopia.annotations.UITopiaVariant;
 import org.processmining.framework.plugin.annotations.Plugin;
 import org.processmining.framework.plugin.annotations.PluginVariant;
+import org.processmining.models.graphbased.directed.petrinet.Petrinet;
 import org.processmining.models.graphbased.directed.petrinet.PetrinetGraph;
 import org.processmining.plugins.petrinet.replayer.PNLogReplayer;
 import org.processmining.plugins.petrinet.replayresult.PNRepResult;
@@ -142,12 +143,16 @@ public HeaderBar main(UIPluginContext context, XLog inputlog, PetrinetGraph net)
 			Vector <List<StepTypes>>steps = new Vector<List<StepTypes>>();
 			Vector <SortedSet<Integer>> runs = new Vector<SortedSet<Integer>>();
 			
+	
 			try{
 				
-				// replaying a log and parsing replay result
+			// replaying a log and parsing replay result
 				
 			PNLogReplayer replayer = new PNLogReplayer();
-			PNRepResult rep_res = replayer.replayLog(context, net, inputlog);
+			PNRepResult rep_res = null;
+			
+			//In prev. version of the method no casting to Petrinet was used
+			rep_res = replayer.replayLog(context, (Petrinet) net, inputlog);
 				
 			Iterator runs_iter=rep_res.iterator();
 			

@@ -59,7 +59,8 @@
 	<classpathentry kind="lib" path="stdlib/commons-math3-3.5.jar"/>
 	<classpathentry kind="lib" path="C:/workspace/ProcessRiskIndicatorsPlugin/stdlib/OpenXES.jar"/>
 	<classpathentry kind="lib" path="C:/workspace/ProcessRiskIndicatorsPlugin/packagelib/GuideTreeMiner.jar"/>
-	<classpathentry kind="lib" path="C:/workspace/ProcessRiskIndicatorsPlugin/packagelib/PNetReplayer.jar"/>
 	<classpathentry kind="lib" path="C:/workspace/ProcessRiskIndicatorsPlugin/packagelib/PetriNets.jar"/>
+	<classpathentry kind="lib" path="C:/workspace/ProcessRiskIndicatorsPlugin/packagelib/PNetReplayer.jar"/>
+	<classpathentry kind="lib" path="C:/workspace/ProcessRiskIndicatorsPlugin/packagelib/EfficientStorage.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
