@@ -11,7 +11,7 @@ To install the package:
 
 2. Add to packages.xml under <installed-packages> entry:
 
-<package name="overallprocessrisk" version="6" os="all" url="http://www.yawlfaundation.org" desc="overallprocessrisk" org="QUT" auto="false" hasPlugins="true" license="LGPL" author="A. Pika" maintainer="A. Pika" logo="">
+<package name="processriskindicators" version="6" os="all" url="http://www.yawlfaundation.org" desc="processriskindicators" org="QUT" auto="false" hasPlugins="true" license="LGPL" author="A. Pika" maintainer="A. Pika" logo="">
  </package>
 
 3. Install ProM package 'PNetReplayer'
